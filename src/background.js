@@ -1,10 +1,13 @@
 chrome.extension.onRequest.addListener(function(data, sender, response) {
+  // console.log("Processing " + data.src);
+  // console.log(data);
   if (data.type === 'img') {
     request(
       data.src,
       function(xhr) { // callback
         try {
           var singleImageSrc = getSingleImage(xhr);
+          // console.log("Got single image");
           response({dataUrl:singleImageSrc});
         } catch(e) {
           //console.log(e);
@@ -12,7 +15,7 @@ chrome.extension.onRequest.addListener(function(data, sender, response) {
         }
       },
       function() { // errorback
-        response({errro:'ERROR: Failed loading image.'});
+        response({error:'ERROR: Failed loading image.'});
       }
     );
   } else if (data.type === 'css') {
@@ -48,10 +51,13 @@ chrome.extension.onRequest.addListener(function(data, sender, response) {
         });
       },
       function() { // errorback
-        response({errro:'ERROR: Failed loading image.'});
+        response({error:'ERROR: Failed loading css.'});
       }
     );
+  } else {
+    response({error:'ERROR: Unknown data type.'});
   }
+  // console.log("Done " + data.src);
 });
 
 function request(url, callback, errorback) {
@@ -64,6 +70,7 @@ function request(url, callback, errorback) {
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
       if (xhr.status >= 200 && xhr.status < 300) {
+        // console.log("Got XHR for " + url);
         callback && callback(xhr);
       } else {
         errorback && errorback(xhr);
@@ -71,6 +78,7 @@ function request(url, callback, errorback) {
     }
   }
 
+  // console.log("Sending XHR for " + url);
   xhr.send(null);
 }
 

@@ -6,14 +6,14 @@ function imgLoad(e) {
 }
 
 function pauseAnimationImg(img) {
-  //console.log(img);
   if (/\.(jpe?g|jp2|png|tiff?|bmp|dib|svgz?|ico)\b/.test(img.src) 
     || img.getAttribute('data-original-src')
     || img.getAttribute('data-animation-restarted')) return;
 
+  // console.log(img);
   img.setAttribute('data-original-src', img.src);
   chrome.extension.sendRequest(ExtID, {type: 'img', src: img.src}, function(res) {
-    //console.log([img.src, res]);
+    // console.log([img.src, res]);
     if (res.error) {
       img.removeAttribute('data-original-src');
     } else {
@@ -62,12 +62,13 @@ function pauseAnimationCSS(sheet) {
   });
 }
 
-
 (function init() {
   var imgs = document.images;
+  /*
   for (var i = 0; i < imgs.length; i++) {
     pauseAnimationImg(imgs[i]);
   }
+  */
   document.addEventListener('load', imgLoad, true);
 
   var sheets = document.styleSheets;
@@ -90,10 +91,12 @@ function pauseAnimationCSS(sheet) {
     }
   }
 
+  /*
   var links = document.getElementsByTagName('link');
   for (var i = 0; i < links.length; i++) {
     if (links[i].getAttribute('rel') === 'stylesheet') {
       pauseAnimationCSS(links[i]);
     }
   }
+  */
 })();

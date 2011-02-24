@@ -4,7 +4,7 @@
   "content_scripts": [ {
      "js": [ "content.js" ],
      "css": [ "content.css" ],
-     "matches": [ "http://*/*", "https://*/*" ],
+     "matches": [ "file://*/*", "http://*/*", "https://*/*" ],
      "run_at": "document_end"
   } ],
   "description": "Pause animated images until you click to start it.",
