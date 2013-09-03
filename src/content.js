@@ -78,7 +78,7 @@ function pauseAnimationCSS(sheet) {
 
     for (var j = 0; j < rules.length; j++) {
       var style = rules[j].style;
-      for (var k = 0; k < style.length; k++) {
+      for (var k = 0; style && k < style.length; k++) {
         var dec = style[k];
         if (/url\((\S+)\)/.test(style[dec])) { // WebKit normalize the css and remove quotes and whitespaces
           var url = RegExp.$1;
